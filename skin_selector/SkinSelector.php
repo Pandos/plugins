@@ -37,26 +37,14 @@ function template_sidebar_skin_selector()
 			', $txt['skin_selector'], '
 		</we:title>
 		<p>
-			<select name="skinse" id="skinse"', $current_skin ? 'data-default="' . westr::safe($current_skin) . '"' : '', '>
+			<select name="skinse" id="skinse"', $current_skin ? ' data-default="' . westr::safe($current_skin) . '"' : '', '>
 				<option value=""', $context['skin_actual'] == '' ? ' selected' : '', '>', $txt['skin_overall_default'], '</option>
 				', $skin_selector, '
 			</select>
 		</p>
 	</section>';
 
-	if (we::$is_guest)
-		add_js('
-	$("#skinse").change(function () {
-		var len, sAnchor = "", sUrl = location.href.replace(/skin=([^;]+);?/i, ""), search = sUrl.indexOf("#");
-		if (search != -1)
-		{
-			sAnchor = sUrl.slice(search);
-			sUrl = sUrl.slice(0, search);
-		}
-		location = sUrl + (sUrl.search(/[?;]$/) != -1 ? "" : sUrl.indexOf("?") < 0 ? "?" : ";") + "skin=" + encodeURIComponent(this.value) + sAnchor;
-	});');
-	else
-		add_js('
+	add_js('
 	$("#skinse").change(function () {
 		location = weUrl("action=skin;skin=" + encodeURIComponent(this.value) + ";" + we_sessvar + "=" + we_sessid);
 	});');
